@@ -48,7 +48,7 @@
 			},
 			getDate(type) {
             	const date = new Date();
-            	let year = date.getFullYear()-60;
+            	let year = date.getFullYear();
             	let month = date.getMonth() + 1;
             	let day = date.getDate();
             	month = month > 9 ? month : '0' + month;
