@@ -73,42 +73,7 @@
 			}
 		},
 		created() {
-			var that = this;
-			if((this.fields=='year'&&this.start.length!=4)||(this.fields=='month'&&this.start.length!=7)||(this.fields=='day'&&this.start.length!=10)){
-				console.error("最小值格式与粒度格式不符");return;
-			}else if((this.fields=='year'&&this.end.length!=4)||(this.fields=='month'&&this.end.length!=7)||(this.fields=='day'&&this.end.length!=10)){
-				console.error("最大值格式与粒度格式不符");return;
-			}
-			var start=this.fields=='year'?this.start.slice(0,4):this.fields=='month'?this.start.slice(0,7):this.start,
-				end=this.fields=='year'?this.end.slice(0,4):this.fields=='month'?this.end.slice(0,7):this.end;
-			if(!start||!end){
-				console.error("时间不能为空");return;
-			}else if(start>end){
-				console.error("结束时间必须大等于开始时间");return;
-			}
-			if(this.value[0]){
-				if((this.fields=='year'&&this.value[0].length!=4)||(this.fields=='month'&&this.value[0].length!=7)||(this.fields=='day'&&this.value[0].length!=10)){
-					console.error("默认值格式与粒度格式不符");return;
-				}
-				this.startDate=this.value[0];
-				if(this.value[1]){
-					if((this.fields=='year'&&this.value[1].length!=4)||(this.fields=='month'&&this.value[1].length!=7)||(this.fields=='day'&&this.value[1].length!=10)){
-						console.error("默认值格式与粒度格式不符");return;
-					}
-					this.endDate=this.value[1];
-					this.dateType="endDate";
-					if(this.fields=='day')this.dayArr=this.getMonthDay(this.value[1].slice(0,4),this.value[1].slice(5,7));
-					this.pickerValue=this.getIndex(this.value[1]);
-				}else{
-					this.dateType="startDate";
-					if(this.fields=='day')this.dayArr=this.getMonthDay(this.value[0].slice(0,4),this.value[0].slice(5,7));
-					this.pickerValue=this.getIndex(this.value[0]);
-				}
-			}else{
-				this.startDate=start;
-				this.pickerValue=this.getIndex(start);
-				if(this.fields=='day')this.dayArr=this.getMonthDay(start.slice(0,4),start.slice(5,7));
-			}
+			this.init()
 		},
 		data() {
 			return {
@@ -121,6 +86,10 @@
 			};
 		},
 		watch: {
+			value(value){
+				this.value=value;
+				this.init()
+			},
 			show(isShow) {
 				this.showPicker = isShow;
 			}
@@ -128,7 +97,7 @@
 		computed: {
 			yearArr(){
 				var arr = [],start = parseInt(this.start.slice(0,4)),end=parseInt(this.end.slice(0,4));
-				for(var i=0;i<end-start;i++){
+				for(var i=0;i<=end-start;i++){
 					arr.push(start+i)
 				}
 				return arr;
@@ -145,6 +114,44 @@
 		},
 		methods:{
 			returnHandle(){},
+			init(){
+				var that = this;
+				if((this.fields=='year'&&this.start.length!=4)||(this.fields=='month'&&this.start.length!=7)||(this.fields=='day'&&this.start.length!=10)){
+					console.error("最小值格式与粒度格式不符");return;
+				}else if((this.fields=='year'&&this.end.length!=4)||(this.fields=='month'&&this.end.length!=7)||(this.fields=='day'&&this.end.length!=10)){
+					console.error("最大值格式与粒度格式不符");return;
+				}
+				var start=this.fields=='year'?this.start.slice(0,4):this.fields=='month'?this.start.slice(0,7):this.start,
+					end=this.fields=='year'?this.end.slice(0,4):this.fields=='month'?this.end.slice(0,7):this.end;
+				if(!start||!end){
+					console.error("时间不能为空");return;
+				}else if(start>end){
+					console.error("结束时间必须大等于开始时间");return;
+				}
+				if(this.value[0]){
+					if((this.fields=='year'&&this.value[0].length!=4)||(this.fields=='month'&&this.value[0].length!=7)||(this.fields=='day'&&this.value[0].length!=10)){
+						console.error("默认值格式与粒度格式不符");return;
+					}
+					this.startDate=this.value[0];
+					if(this.value[1]){
+						if((this.fields=='year'&&this.value[1].length!=4)||(this.fields=='month'&&this.value[1].length!=7)||(this.fields=='day'&&this.value[1].length!=10)){
+							console.error("默认值格式与粒度格式不符");return;
+						}
+						this.endDate=this.value[1];
+						this.dateType="endDate";
+						if(this.fields=='day')this.dayArr=this.getMonthDay(this.value[1].slice(0,4),this.value[1].slice(5,7));
+						this.pickerValue=this.getIndex(this.value[1]);
+					}else{
+						this.dateType="startDate";
+						if(this.fields=='day')this.dayArr=this.getMonthDay(this.value[0].slice(0,4),this.value[0].slice(5,7));
+						this.pickerValue=this.getIndex(this.value[0]);
+					}
+				}else{
+					this.startDate=start;
+					this.pickerValue=this.getIndex(start);
+					if(this.fields=='day')this.dayArr=this.getMonthDay(start.slice(0,4),start.slice(5,7));
+				}
+			},
 			maskClick(){
 				this.$emit("showchange",false);
 			},
