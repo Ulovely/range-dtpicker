@@ -121,7 +121,7 @@
 		methods:{
 			returnHandle(){},
 			init(){
-				var that = this;
+				var that = this,pickerValue="";
 				if((this.fields=='year'&&this.start.length!=4)||(this.fields=='month'&&this.start.length!=7)||(this.fields=='day'&&this.start.length!=10)){
 					console.error("最小值格式与粒度格式不符");return;
 				}else if((this.fields=='year'&&this.end.length!=4)||(this.fields=='month'&&this.end.length!=7)||(this.fields=='day'&&this.end.length!=10)){
@@ -146,17 +146,18 @@
 						this.endDate=this.value[1];
 						this.dateType="endDate";
 						if(this.fields=='day')this.dayArr=this.getMonthDay(this.value[1].slice(0,4),this.value[1].slice(5,7));
-						this.pickerValue=this.getIndex(this.value[1]);
+						pickerValue=this.getIndex(this.value[1]);
 					}else{
 						this.dateType="startDate";
 						if(this.fields=='day')this.dayArr=this.getMonthDay(this.value[0].slice(0,4),this.value[0].slice(5,7));
-						this.pickerValue=this.getIndex(this.value[0]);
+						pickerValue=this.getIndex(this.value[0]);
 					}
 				}else{
 					this.startDate=start;
-					this.pickerValue=this.getIndex(start);
+					pickerValue=this.getIndex(start);
 					if(this.fields=='day')this.dayArr=this.getMonthDay(start.slice(0,4),start.slice(5,7));
 				}
+				if(pickerValue)setTimeout(function(){that.pickerValue=pickerValue},20)
 			},
 			maskClick(){
 				this.$emit("showchange",false);
@@ -189,12 +190,16 @@
 				}
 			},
 			pickerChangeMul(e){
-				var val = e.detail.value,dateTxt="";
+				var that=this,val = e.detail.value,dateTxt="";
 				if(this.fields=='day'&&(val[0]!=this.pickerValue[0]||val[1]!=this.pickerValue[1])){
 					this.dayArr=this.getMonthDay(this.yearArr[val[0]],this.monthArr[val[1]])
-					if(!this.dayArr[val[2]]){
-						val[2]=(val[2]-1)
+					function returnMax(){
+						if(!that.dayArr[val[2]]){
+							val[2]=(val[2]-1)
+							returnMax()
+						}
 					}
+					returnMax()
 				}
 				dateTxt=this.yearArr[val[0]]+'-'+this.monthArr[val[1]]+'-'+this.dayArr[val[2]];
 				this[this.dateType]=this.fields=='year'?dateTxt.slice(0,4):this.fields=='month'?dateTxt.slice(0,7):dateTxt;
