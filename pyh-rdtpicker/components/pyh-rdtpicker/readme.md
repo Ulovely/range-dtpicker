@@ -19,8 +19,8 @@ export default {
 <rangeDatePick 
 	:show="isShow"
 	@showchange="showchange"
-	start="1900-01-01"
-	end="2200-12-01"
+	:start="1900-01-01"
+	:end="2200-12-01"
 	:value="value"
 	@change="bindChange"
 	@cancel="bindCancel"
@@ -63,6 +63,8 @@ showchange(){
 }
 
 **更新记录：**
+
+1.0.6：添加动态修改start和end,示例项目由新增注释</br>
 
 1.0.5：修复月份切换时，day存在显示undefined的问题；修复小程序value设置后滚动位置不对的问题</br>
 

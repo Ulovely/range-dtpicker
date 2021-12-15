@@ -92,6 +92,12 @@
 			},
 			show(isShow) {
 				this.showPicker = isShow;
+			},
+			start(){
+				this.init()
+			},
+			end(){
+				this.init()
 			}
 		},
 		computed: {

@@ -4,8 +4,8 @@
 		<rangeDatePick 
 			:show="isShow"
 			@showchange="showchange"
-			start="1900-01-01"
-			end="2200-12-01"
+			:start="start"
+			:end="end"
 			:value="value"
 			@change="bindChange"
 			@cancel="bindCancel"
@@ -19,18 +19,25 @@
     import rangeDatePick from '@/components/pyh-rdtpicker/pyh-rdtpicker.vue';
 	export default {
 		data() {
-            const currentDate = this.getDate({
-               format: true
-            })
+            const currentDate = this.getDate({format: true})
 			return {
                 nowDate:currentDate,//获取当前时间
 				isShow:false,
 				value:[],
-				chooseDate:"选择时间段"
+				chooseDate:"选择时间段",
+				start:"1900-01-01",
+				end:"2200-12-01"
 			}
 		},
 		components:{
 			rangeDatePick
+		},
+		onLoad() {
+			//模拟修改start和end
+			// setTimeout(()=>{
+			// 	this.start = "2000-01-01";
+			// 	this.end = "2022-01-01"
+			// },4000)
 		},
 		methods: {
 			showPicker(e){
