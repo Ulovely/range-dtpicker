@@ -19,8 +19,8 @@ export default {
 <rangeDatePick 
 	:show="isShow"
 	@showchange="showchange"
-	:start="1900-01-01"
-	:end="2200-12-01"
+	:start="start"
+	:end="start"
 	:value="value"
 	@change="bindChange"
 	@cancel="bindCancel"
