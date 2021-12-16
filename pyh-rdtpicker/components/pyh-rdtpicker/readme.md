@@ -20,7 +20,7 @@ export default {
 	:show="isShow"
 	@showchange="showchange"
 	:start="start"
-	:end="start"
+	:end="end"
 	:value="value"
 	@change="bindChange"
 	@cancel="bindCancel"
