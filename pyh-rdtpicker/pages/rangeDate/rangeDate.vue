@@ -34,10 +34,10 @@
 		},
 		onLoad() {
 			//模拟修改start和end
-			// setTimeout(()=>{
-			// 	this.start = "2000-01-01";
-			// 	this.end = "2022-01-01"
-			// },4000)
+			setTimeout(()=>{
+				this.start = "2000-01-01";
+				this.end = "2022-01-01"
+			},2000)
 		},
 		methods: {
 			showPicker(e){
